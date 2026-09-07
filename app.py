@@ -1,9 +1,9 @@
-import sqlite3 
+import sqlite3
 
-def get-user-data (user_input): 
-conn = sqlite3.connect ("users.db")
-cursor = conn.cursor()
-# vulnerable SQL INJECTION QUERY 
-query = select * from users where id = '" + user_input + "'"
-cursor.execute(query)
+def get_user_data(user_input):
+  conn = sqlite3.connect("user.db")
+cursor = conn.cursor() 
+# secure: using parameterized quries prevents sql injection 
+query = "select * from users where id = ?"
+cursor.execute(query, (user_input,))
 return cursor.fetchall()
