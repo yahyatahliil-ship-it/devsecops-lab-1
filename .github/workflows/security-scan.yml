@@ -1,0 +1,25 @@
+YAML 
+name: devsecops pillars 1 scan 
+on: (push)
+jobs: 
+sast-scan: 
+runs-on: ubuntu-latest 
+container: 
+image: returntocorp/semgrep 
+steps: 
+- name: checkout code 
+uses: actions/checkout@v3
+- name: run sast scan (semgrep)
+run: semgrep --config=p/default --error 
+sca-scan:
+runs-on: ubuntu-latest
+steps:
+- name: checkout code
+uses: actions/checkout@v3
+- name: run sca scan (trivy) 
+uses: aquasecurity/trivy-action@master 
+with: 
+scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
